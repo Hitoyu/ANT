@@ -1,0 +1,65 @@
+main: me.hitoyu.ant.Ant
+description: ${project.description}
+version: ${project.version}
+name: ${project.name}
+author: Hitoyu5
+depend: [HitoCore]
+commands:
+    setlang:
+        description: Sets your language
+        permission: ant.setlang
+        permission-message: You don't have <permission>
+    languages:
+        description: Displays the available languages in pages of 10.
+        permission: ant.languages
+        permission-message: You don't have <permission>
+    getlang:
+        description: Shows you what language that a player is using
+        permission: ant.getlang
+        permission-message: You don't have <permission>
+    ant:
+        description: Main plugin command.
+        permission: ant.main
+        permission-message: You don't have <permission>
+    say:
+        description: /say command from Bukkit
+        usage: /<command> [message]
+        permission: bukkit.command.say
+        permission-message: You don't have <permission>
+permissions:
+    ant.*: 
+        description: Gives you all permissions for the ANT plugin.
+        children:
+            ant.setlang: true
+            ant.setlang.others: true
+            ant.languages: true
+            ant.getlang: true
+            ant.main: true
+    ant.default:
+        description: Default ANT permissions, granted to all users.
+        default: true
+        children: 
+            ant.setlang: true
+            ant.languages: true
+            ant.getlang: true
+            ant.main: true
+    ant.setlang: 
+        default: true
+    ant.getlang: 
+        default: true
+    ant.main: 
+        default: true
+    ant.languages: 
+        default: true
+    ant.setlang.others:
+        default: op
+    ant.reload:
+        default: op
+    ant.setdebug:
+        default: op
+    ant.admin: 
+      description: Administrative permissions for ANT.
+      default: op
+      children: 
+          ant.setlang.others: true
+          ant.reload: true
