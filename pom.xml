@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>me.hitoyu</groupId>
   <artifactId>ANT</artifactId>
-  <version>0.2.5.6</version>
+  <version>0.2.5.7</version>
   <build>
       <plugins>
           <plugin>
