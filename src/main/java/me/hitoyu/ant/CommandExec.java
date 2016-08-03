@@ -9,6 +9,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginDescriptionFile;
 
 import me.hitoyu.ant.Ant;
 
@@ -25,22 +26,21 @@ public class CommandExec implements CommandExecutor {
 			if (!(player.hasPermission("ant.setlang"))) {
 				return false;
 			}
-			
+
 			if(args.length < 2 && !(player instanceof Player)) {
 				player.sendMessage("You can only change the language of another player using this command from console.");
 				player.sendMessage("Change someone elses language by using /setlang [player] [language]");
 				return true;
 			}
-			
+	
 			if(args.length == 0) {
 				player.sendMessage(ChatColor.RED + "Language required!");
 				return true;
 			}
 
 			if (args.length == 1) {
-				
 				Api.Language lang = Api.getLanguage(args[0]);
-				ant.hc.debugCall("Target lang", lang.getName(), true);
+				ant.hc.debugCall("Target lang", lang, true);
 				
 				if (lang == null || ant.setLang((Player) player, lang) == false) {
 					player.sendMessage(ChatColor.RED + "Could not change language. Either the language doesn't exist or your language is already set to it.");
@@ -151,6 +151,10 @@ public class CommandExec implements CommandExecutor {
 
 		if (label.equalsIgnoreCase("ant")) {
 			if (args.length < 1) {
+				if(!player.hasPermission("ant.main")) {
+					player.sendMessage(ChatColor.RED + "You do not have permission to do this.");
+					return true;
+				}
 				player.sendMessage(ChatColor.GOLD + "ANT (Another Translator) Help:");
 				int options = 0;
 				if (player.hasPermission("ant.reload")) {
@@ -158,6 +162,12 @@ public class CommandExec implements CommandExecutor {
 					player.sendMessage(ChatColor.RED + "/ant reload " + ChatColor.GREEN + " | Reloads the plugin");
 				}
 
+				if (player.hasPermission("ant.version")) {
+					options++;
+					player.sendMessage(ChatColor.RED + "/ant version" + ChatColor.GREEN 
+							+ " | Display the version of this plugin.");
+				}
+				
 				if (player.hasPermission("ant.setdebug")) {
 					options++;
 					player.sendMessage(ChatColor.RED + "/ant debug [0, 1, 2]" + ChatColor.GREEN
@@ -184,16 +194,23 @@ public class CommandExec implements CommandExecutor {
 
 				if (player.hasPermission("ant.languages")) {
 					options++;
-					player.sendMessage(
-							ChatColor.RED + "/languages" + ChatColor.GREEN + " | View the available languages");
+					player.sendMessage(ChatColor.RED + "/languages" 
+					+ ChatColor.GREEN + " | View the available languages");
 				}
-
+				
 				if (options == 0) {
 					player.sendMessage(ChatColor.RED + "You have no permissions with this plugin.");
 				}
 				return false;
 			}
 
+			if(player.hasPermission("ant.version")) {
+				if(args[0].equalsIgnoreCase("version")) {
+					String version = ant.getConfig().getString("version");
+					player.sendMessage("ANT is running v" + version);
+				}
+			}
+			
 			if (player.hasPermission("ant.reload")) {
 				if (args[0].equalsIgnoreCase("reload")) {
 					ant.pluginLoad();

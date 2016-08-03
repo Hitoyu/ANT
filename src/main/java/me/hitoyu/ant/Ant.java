@@ -31,7 +31,7 @@ public class Ant extends JavaPlugin implements Listener {
 	private static int conCheckTask;
 	String plugin = "ant";
 	static String plugins = "ant";
-	
+
 	static String pluginVer = null;
 	
 	// Easier logging mechanism
@@ -44,6 +44,7 @@ public class Ant extends JavaPlugin implements Listener {
 	
 	@Override
 	public void onEnable() {
+		langs.put("A",Api.Language.NONE);
 		pluginLoad();
 		// Allows event handlers to work
 		Bukkit.getPluginManager().registerEvents(this, this);
@@ -59,7 +60,7 @@ public class Ant extends JavaPlugin implements Listener {
 
 	void pluginLoad() { // Also handles reloading
 		// Variable reset
-		langs = null;
+		langs = new ConcurrentHashMap<String, Api.Language>();
 		connected = false;
 		uuid = false;
 		debug = 0;
@@ -89,6 +90,9 @@ public class Ant extends JavaPlugin implements Listener {
 		// Reloads config file, incase there is one and changes were made
 		reloadConfig();
 
+		String version = this.getDescription().getVersion();
+		this.getConfig().set("version", version);
+		
 		readAndSetDebug();
 		// Command registering
 		this.getCommand("setlang").setExecutor(new CommandExec());
@@ -238,9 +242,15 @@ public class Ant extends JavaPlugin implements Listener {
 		File ANT_data = new File(Ant.getDataFolder(), "ANT_data.dat");
 		try {
 			if (ANT_data.exists()) {
-				langs = SLAPI.load(ANT_data.getPath());
+				Map langsX = SLAPI.load(ANT_data.getPath());
+				hcs.debugCall("Data dump", langsX, true);
+				hcs.debugCall("Pre dump langs", langs, true);
+				if(!(langsX == null)) {
+					langs = langsX;
+				}
 			} else {
 				ANT_data.createNewFile();
+				//langs = SLAPI.load(ANT_data.getPath());
 			}
 			hcs.debugCall("Data load successful", null, false);
 			return true;

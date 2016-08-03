@@ -35,8 +35,10 @@ permissions:
             ant.languages: true
             ant.getlang: true
             ant.main: true
+            ant.reload: true
+            ant.setdebug: true
     ant.default:
-        description: Default ANT permissions, granted to all users.
+        description: Default ANT permissions, granted to all users by default.
         default: true
         children: 
             ant.setlang: true

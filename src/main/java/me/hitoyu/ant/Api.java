@@ -136,7 +136,7 @@ public class Api {
 			return null;
 		}
 		Ant.hcs.debugCall("player name|uuid", name, true);
-
+		
 		if (Ant.langs.containsKey(name) == false) {
 			return null;
 		}
@@ -201,8 +201,7 @@ public class Api {
 	    CATALAN("Catalan", "ca", "cat","català"),
 	    CEBUANO("Cebuano", "","DEB", "Cebuano"),
 	    CHICHEWA("Chichewa", "ny","nya","Chichewa"),
-	    CHINESE_SIMPLIFIED("Chinese-CN","zh-CN","zho-CN","\u4E2D\u56FD"),
-	    CHINESE_TRADITIONAL("Chinese-TW","zh-TW","zho-TW","\u4E2D\u570B"),
+	    CHINESE_SIMPLIFIED("Chinese-CN","zh-CN","zho-CN","\u4E2D\u56FD"),CHINESE_TRADITIONAL("Chinese-TW","zh-TW","zho-TW","\u4E2D\u570B"),
 	    CORSICAN("Corsican","co","cos","corsu"),
 	    CROATIAN("Croatian","hr","hrv","hrvatski"),
 	    CZECH("Czech","cs","cse","ceština"),
